@@ -2,8 +2,6 @@ package net.vershinin;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -34,13 +32,7 @@ public class GdxGame extends ApplicationAdapter {
 		sprite = new Sprite(new Texture("map.png"));
         sprite.setSize(WIDTH, HEIGHT);
 
-        Gdx.input.setInputProcessor(new InputMultiplexer(new InputAdapter(){
-            @Override
-            public boolean touchDragged(int screenX, int screenY, int pointer) {
-                v1.setScreenX(screenX);
-                return false;
-            }
-        }));
+        Gdx.input.setInputProcessor(new DefconViewportController(v1, v2));
 	}
 
     @Override
@@ -62,7 +54,6 @@ public class GdxGame extends ApplicationAdapter {
         sprite.draw(batch);
         batch.end();
 
-        v2.setScreenX(v1.getScreenX() + v1.getScreenWidth());
         v2.apply();
         batch.setProjectionMatrix(cam2.combined);
 		batch.begin();
